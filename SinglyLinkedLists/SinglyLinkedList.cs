@@ -167,7 +167,12 @@ namespace SinglyLinkedLists
 
         public string[] ToArray()
         {
-            throw new NotImplementedException();
+            string[] Arr = new string[this.Count()];
+            for (int i = 0; i < this.Count(); i++)
+            {
+               Arr[i] = this.ElementAt(i);
+            }
+            return Arr;
         }
 
         public override string ToString()
@@ -185,6 +190,7 @@ namespace SinglyLinkedLists
             }
             return str + "}";
         }
+
     }
 }
 
