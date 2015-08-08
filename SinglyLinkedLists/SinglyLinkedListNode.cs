@@ -16,17 +16,19 @@ namespace SinglyLinkedLists
         public SinglyLinkedListNode Next
         {
             get { return next; }
-            set {
-                if (this == value ||value == null)
-                    {
-                        throw new ArgumentException();
-                    }
-                 this.next = value;
+            set
+            {
+                if (value.Equals(this))
+                {
+                    throw new ArgumentException();
                 }
+                this.next = value;
+            }
         }
 
-        private string value;
-        public string Value 
+        private string value; // same as this.value
+        // Value is a property!! Fix the getter!
+        public string Value
         {
             get { return value; }
         }
@@ -42,9 +44,14 @@ namespace SinglyLinkedLists
             // This implementation is provided for your convenience.
             return node1.CompareTo(node2) > 0;
         }
-        public SinglyLinkedListNode(string value)
+
+
+        public SinglyLinkedListNode(string input)
         {
-            this.value = value;
+            this.value = input;
+
+            // data members default to null, but...
+            this.next = null;
 
             // Used by the visualizer:
             allNodes.Add(this);
@@ -53,15 +60,45 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
         public int CompareTo(Object obj)
         {
-            SinglyLinkedListNode otherNode = obj as SinglyLinkedListNode;
-            return otherNode == null ? 1 : this.value.CompareTo(otherNode.Value);
+            SinglyLinkedListNode other_node = obj as SinglyLinkedListNode;
+            return other_node == null ? 1 : this.value.CompareTo(other_node.Value);
+
+            /* The same as: 
+            if (other_node == null) 
+            {
+                return 1;
+            } else 
+            {
+                return this.value.CompareTo(other_node.Value);
+            }
+            */
+
         }
 
         public bool IsLast()
         {
-          //  Object thing = null;
+            /* this makes the test pass
+            if (this.next == null)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+            */
+            /* Refactor 1: no else statement
+            if (this.next == null)
+            {
+                return true;
+            } 
+            return false;
+            */
+
+            /* Refactor 2 */
             return this.next == null;
+
         }
+
 
         public override string ToString()
         {
@@ -72,5 +109,6 @@ namespace SinglyLinkedLists
         {
             return this.CompareTo(obj) == 0;
         }
+
     }
 }

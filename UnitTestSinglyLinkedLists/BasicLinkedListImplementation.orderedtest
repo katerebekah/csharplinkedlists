@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<OrderedTest name="basiclinkedlistimplementation" storage="c:\users\kate\nssprojects\linkedlists\unittestsinglylinkedlists\basiclinkedlistimplementation.orderedtest" id="211fca0b-2c42-4d0a-9fee-e22379c48296" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<OrderedTest name="basiclinkedlistimplementation" storage="c:\users\jurnell\documents\github\csharpsinglylinkedlists\unittestsinglylinkedlists\basiclinkedlistimplementation.orderedtest" id="211fca0b-2c42-4d0a-9fee-e22379c48296" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <TestLinks>
     <TestLink id="9405e750-a472-a238-e92f-02c06792d223" name="NodeConstructorStoresName" storage="bin\debug\unittestsinglylinkedlists.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <TestLink id="2cbc39d0-f2dd-648b-4d36-f3c3d6e89fe9" name="NodeDefaultNext" storage="bin\debug\unittestsinglylinkedlists.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
