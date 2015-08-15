@@ -16,24 +16,95 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/aa691335(v=vs.71).aspx
         public SinglyLinkedList(params object[] values)
         {
-            throw new NotImplementedException();
+            if (values.Count() == 0)
+            {
+                throw new ArgumentException();
+            }
+            for (var i = 0; i < values.Count(); i++)
+            {
+                this.AddLast(values[i].ToString());
+            }
         }
 
         // READ: http://msdn.microsoft.com/en-us/library/6x16t2tx.aspx
         public string this[int i]
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return this.ElementAt(i); }
+            set
+            {
+                var placeholderList = new SinglyLinkedList();
+                for (var q = 0; q < this.Count(); q++)
+                {
+                    if (q == i)
+                    {
+                        placeholderList.AddLast(value);
+                    }
+                    else
+                    {
+                        placeholderList.AddLast(this.ElementAt(q));
+                    }
+                }
+                first_node = new SinglyLinkedListNode(placeholderList.First());
+                for (var w = 1; w < placeholderList.Count(); w++)
+                {
+                    this.AddLast(placeholderList.ElementAt(w));
+                }
+            }
         }
 
-        public void AddAfter(string existingValue, string value)
+        public void AddAfter(string existingValue, string newValue)
         {
-            throw new NotImplementedException();
+            int testForValue = -1;
+            for (var i = 0; i < this.Count(); i++)
+            {
+                if (this.ElementAt(i) == existingValue)
+                {
+                    testForValue = i;
+                    break;
+                }
+            }
+            if (testForValue < 0)
+            {
+                throw new ArgumentException();
+            }
+
+            var placeholderList = new SinglyLinkedList();
+            for (var q = 0; q < this.Count(); q++)
+            {
+                placeholderList.AddLast(this.ElementAt(q));
+                if (q == testForValue)
+                {
+                    placeholderList.AddLast(newValue);
+                }
+            }
+            first_node = new SinglyLinkedListNode(placeholderList.First());
+            for (var w = 1; w < placeholderList.Count(); w++)
+            {
+                this.AddLast(placeholderList.ElementAt(w));
+            }
         }
 
         public void AddFirst(string value)
         {
-            throw new NotImplementedException();
+            if (this.First() == null)
+            {
+                first_node = new SinglyLinkedListNode(value);
+            }
+            else
+            {
+                var newFirstnode = new SinglyLinkedListNode(value);
+                var placeholderList = new SinglyLinkedList();
+                placeholderList.AddFirst(newFirstnode.Value);
+                for (var i = 0; i < this.Count(); i++)
+                {
+                    placeholderList.AddLast(this.ElementAt(i));
+                }
+                first_node = new SinglyLinkedListNode(placeholderList.First());
+                for (var q = 1; q < placeholderList.Count(); q++ )
+                {
+                    this.AddLast(placeholderList.ElementAt(q));
+                }
+            }
         }
 
         public void AddLast(string value)
@@ -120,12 +191,32 @@ namespace SinglyLinkedLists
 
         public int IndexOf(string value)
         {
-            throw new NotImplementedException();
+            int testForValue = -1;
+            for (var i = 0; i < this.Count(); i++)
+            {
+                if (this.ElementAt(i) == value)
+                {
+                    testForValue = i;
+                    break;
+                }
+            }
+            return testForValue;
         }
 
         public bool IsSorted()
         {
-            throw new NotImplementedException();
+            if (this.First() != null)
+            {
+                for (var i = 0; i < this.Count()-1; i++)
+                {
+                    if (String.Compare(this.ElementAt(i), this.ElementAt(i + 1), StringComparison.CurrentCulture) == 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+            
         }
 
         // HINT 1: You can extract this functionality (finding the last item in the list) from a method you've already written!
@@ -157,12 +248,48 @@ namespace SinglyLinkedLists
 
         public void Remove(string value)
         {
-            throw new NotImplementedException();
+            int number = this.IndexOf(value);
+            var placeholderList = new SinglyLinkedList();
+            for (var i = 0; i < this.Count(); i++)
+            {
+                if (i != number)
+                {
+                    placeholderList.AddLast(this.ElementAt(i));
+                }
+            }
+            first_node = new SinglyLinkedListNode(placeholderList.First());
+            for (var q = 1; q < placeholderList.Count(); q++)
+            {
+                this.AddLast(placeholderList.ElementAt(q));
+            }
         }
 
         public void Sort()
         {
-            throw new NotImplementedException();
+            if (this.Count() < 2)
+            {
+                return;
+            }
+            else
+            {
+                while (!this.IsSorted())
+                {
+                    var node = first_node;
+                    var node2 = node.Next;
+                    for (var i = 1; i < this.Count(); i++)
+                    {
+                        if (node.Value.CompareTo(node.Next.Value) > 0)
+                        {
+                            var temp = node.Next.Value;
+                            node2.Value = node.Value;
+                            node.Value = temp;
+                        }
+                        node = node.Next;
+                        node2 = node2.Next;
+                    }
+                }
+                
+            }
         }
 
         public string[] ToArray()
