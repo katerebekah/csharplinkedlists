@@ -16,35 +16,49 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/aa691335(v=vs.71).aspx
         public SinglyLinkedList(params object[] values)
         {
+
+            //if they try and pass in an empty list, throw an error
+            //an empty contructor will still work, but this avoids trying to assign a node the value of null
             if (values.Count() == 0)
             {
                 throw new ArgumentException();
             }
+
+            //for each of the values being passed in, add it to the list. (Use AddLast to guarantee the correct order)
             for (var i = 0; i < values.Count(); i++)
             {
+                //this has to be made into a string because it is passed in as an array of objects
                 this.AddLast(values[i].ToString());
             }
         }
 
         // READ: http://msdn.microsoft.com/en-us/library/6x16t2tx.aspx
-        public string this[int i]
+        public string this[int i]//list[i] = value;
         {
+            //uses the ElementAt function to get value (saves you from duplicating your code)
             get { return this.ElementAt(i); }
             set
             {
+                //using a placeholder list helps save the values in order without having to do voodoo with the pointers
                 var placeholderList = new SinglyLinkedList();
                 for (var q = 0; q < this.Count(); q++)
                 {
+                    //if this is the place where you need to exchange the value, insert it here
                     if (q == i)
                     {
                         placeholderList.AddLast(value);
                     }
+                    //otherwise, insert the value that was preexisting in the list
                     else
                     {
                         placeholderList.AddLast(this.ElementAt(q));
                     }
                 }
+                 
+                //now swap out the values in the placeholder list into the real list.
+                //first swap the first value to clear out the old list
                 first_node = new SinglyLinkedListNode(placeholderList.First());
+                //then loop through the placeholder list and add the values to the real list in order
                 for (var w = 1; w < placeholderList.Count(); w++)
                 {
                     this.AddLast(placeholderList.ElementAt(w));
@@ -52,9 +66,12 @@ namespace SinglyLinkedLists
             }
         }
 
-        public void AddAfter(string existingValue, string newValue)
-        {
+        public void AddAfter(string existingValue, string value)
+       { 
+            //Create an int to store the place in line of the newValue
             int testForValue = -1;
+
+            //find the existing value in the linked list and assign the place in testForValue
             for (var i = 0; i < this.Count(); i++)
             {
                 if (this.ElementAt(i) == existingValue)
@@ -63,20 +80,29 @@ namespace SinglyLinkedLists
                     break;
                 }
             }
+
+            //if the existing value isn't in the linked list (if it remains a -1 after the if statement), throw an error 
             if (testForValue < 0)
             {
                 throw new ArgumentException();
             }
 
+            //use a placeholder linked list to store the nodes in the correct order
             var placeholderList = new SinglyLinkedList();
+
+            //loop through the current linked list and assign each of the values to the placeholder list
+            //and insert the new value in its proper place
             for (var q = 0; q < this.Count(); q++)
             {
+                //add each value to the placeholder list
                 placeholderList.AddLast(this.ElementAt(q));
+                //if this spot is the spot where you need to add the new value, add the new value here
                 if (q == testForValue)
                 {
-                    placeholderList.AddLast(newValue);
+                    placeholderList.AddLast(value);
                 }
             }
+            //now reassign the values to the current linked list in order (this.First() etc)
             first_node = new SinglyLinkedListNode(placeholderList.First());
             for (var w = 1; w < placeholderList.Count(); w++)
             {
@@ -86,19 +112,21 @@ namespace SinglyLinkedLists
 
         public void AddFirst(string value)
         {
+            //if this is the first node, this is just an assignment
             if (this.First() == null)
             {
                 first_node = new SinglyLinkedListNode(value);
             }
             else
             {
-                var newFirstnode = new SinglyLinkedListNode(value);
+                //create a placeholder list to store the values in order.
                 var placeholderList = new SinglyLinkedList();
-                placeholderList.AddFirst(newFirstnode.Value);
+                placeholderList.AddFirst(value);
                 for (var i = 0; i < this.Count(); i++)
                 {
                     placeholderList.AddLast(this.ElementAt(i));
                 }
+                //now reassign the values to the current linked list in order (this.First() etc)
                 first_node = new SinglyLinkedListNode(placeholderList.First());
                 for (var q = 1; q < placeholderList.Count(); q++ )
                 {
